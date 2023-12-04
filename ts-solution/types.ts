@@ -12,6 +12,6 @@ export type Cell = {
 export type Board = Cell[][];
 
 export interface Pars {
-    ROWS : number,
-    COLS : number
+    ROWS : number, //x
+    COLS : number //y
 }
