@@ -7,12 +7,40 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     }
     return to.concat(ar || Array.prototype.slice.call(from));
 };
-import { gameBoard, shipList, ShowBoard, sysParams } from "./initBoard.js";
+import { shipList, sysParams } from "./initBoard.js";
 import { CellState } from "./types.js";
 import { combinations } from "./combinations.js";
-var localCombinations = __spreadArray([], combinations, true); // Создание локальной копии
+var localCombinations = __spreadArray([], combinations, true);
+export var localShips = __spreadArray([], shipList, true);
 function getDirection() {
     return Math.random() < 0.5;
+}
+function checkCollision(size, gridmatrix, x, y, direction) {
+    if (direction) {
+        if (y >= sysParams.COLS - size) {
+            if (gridmatrix[y - size][x].state > CellState.Empty) {
+                return true;
+            }
+        }
+        else {
+            if (gridmatrix[y + size][x].state > CellState.Empty) {
+                return true;
+            }
+        }
+    }
+    else {
+        if (x >= sysParams.ROWS - size) {
+            if (gridmatrix[y][x - size].state > CellState.Empty) {
+                return true;
+            }
+        }
+        else {
+            if (gridmatrix[y][x + size].state > CellState.Empty) {
+                return true;
+            }
+        }
+    }
+    return false;
 }
 function markSurroundingCells(x, y, gridmatrix) {
     var _loop_1 = function (i) {
@@ -32,17 +60,23 @@ function markSurroundingCells(x, y, gridmatrix) {
         _loop_1(i);
     }
 }
-function setupShip(size, gridmatrix) {
+export function setupShip(size, gridmatrix) {
     var direction = getDirection();
     var combination = localCombinations[Math.ceil(Math.random() * localCombinations.length - 1)];
     var x = combination[0];
     var y = combination[1];
+    while (checkCollision(size, gridmatrix, x, y, direction)) {
+        direction = getDirection();
+        var combination_1 = localCombinations[Math.ceil(Math.random() * localCombinations.length - 1)];
+        x = combination_1[0];
+        y = combination_1[1];
+    }
     if (direction) {
         if (y >= sysParams.COLS - size) {
             var _loop_3 = function (i) {
                 gridmatrix[y - i][x] = { state: CellState.Ship };
                 markSurroundingCells(x, y - i, gridmatrix);
-                localCombinations.filter(function (item) { return !(item[0] === x && item[1] === y - i); });
+                localCombinations = localCombinations.filter(function (item) { return !(item[0] === x && item[1] === y - i); });
             };
             for (var i = 0; i < size; i++) {
                 _loop_3(i);
@@ -52,7 +86,7 @@ function setupShip(size, gridmatrix) {
             var _loop_4 = function (i) {
                 gridmatrix[y + i][x] = { state: CellState.Ship };
                 markSurroundingCells(x, y + i, gridmatrix);
-                localCombinations.filter(function (item) { return !(item[0] === x && item[1] === y + i); });
+                localCombinations = localCombinations.filter(function (item) { return !(item[0] === x && item[1] === y + i); });
             };
             for (var i = 0; i < size; i++) {
                 _loop_4(i);
@@ -64,7 +98,7 @@ function setupShip(size, gridmatrix) {
             var _loop_5 = function (i) {
                 gridmatrix[y][x - i] = { state: CellState.Ship };
                 markSurroundingCells(x - i, y, gridmatrix);
-                localCombinations.filter(function (item) { return !(item[0] === x - i && item[1] === y); });
+                localCombinations = localCombinations.filter(function (item) { return !(item[0] === x - i && item[1] === y); });
             };
             for (var i = 0; i < size; i++) {
                 _loop_5(i);
@@ -74,7 +108,7 @@ function setupShip(size, gridmatrix) {
             var _loop_6 = function (i) {
                 gridmatrix[y][x + i] = { state: CellState.Ship };
                 markSurroundingCells(x + i, y, gridmatrix);
-                localCombinations.filter(function (item) { return !(item[0] === x + i && item[1] === y); });
+                localCombinations = localCombinations.filter(function (item) { return !(item[0] === x + i && item[1] === y); });
             };
             for (var i = 0; i < size; i++) {
                 _loop_6(i);
@@ -84,7 +118,3 @@ function setupShip(size, gridmatrix) {
     shipList.splice(shipList.indexOf(size), 1);
     return gridmatrix;
 }
-var matrix = setupShip(4, gameBoard);
-ShowBoard(matrix);
-console.log(localCombinations);
-console.log(localCombinations.length);

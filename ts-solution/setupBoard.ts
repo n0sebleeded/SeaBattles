@@ -1,11 +1,40 @@
-import {gameBoard, shipList, ShowBoard, sysParams} from "./initBoard.js";
-import {Board, CellState} from "./types.js";
-import {combinations} from "./combinations.js";
+import { shipList, ShowBoard, startGameBoard, sysParams } from "./initBoard.js";
+import { Board, CellState } from "./types.js";
+import { combinations } from "./combinations.js";
 
-let localCombinations = [...combinations]; // Создание локальной копии
+let localCombinations = [...combinations];
+export let localShips:number[] = [...shipList];
 
 function getDirection():boolean {
     return Math.random() < 0.5;
+}
+
+function checkCollision(size:number, gridmatrix:Board, x:number, y:number, direction:boolean):boolean {
+    if (direction) {
+        if (y >= sysParams.COLS - size) {
+            if (gridmatrix[y - size][x].state > CellState.Empty) {
+                return true;
+            }
+        }
+        else {
+            if (gridmatrix[y + size][x].state > CellState.Empty) {
+                return true;
+            }
+        }
+    }
+    else {
+        if (x >= sysParams.ROWS - size) {
+            if (gridmatrix[y][x - size].state > CellState.Empty) {
+                return true;
+            }
+        }
+        else {
+            if (gridmatrix[y][x + size].state > CellState.Empty) {
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 function markSurroundingCells(x:number, y:number, gridmatrix:Board):void {
@@ -21,25 +50,32 @@ function markSurroundingCells(x:number, y:number, gridmatrix:Board):void {
     }
 }
 
-function setupShip(size:number, gridmatrix:Board):Board {
+export function setupShip(size:number, gridmatrix:Board):Board {
     let direction:boolean = getDirection();
     let combination:number[] = localCombinations[Math.ceil(Math.random() * localCombinations.length - 1)];
     let x:number = combination[0];
     let y:number = combination[1];
+
+    while (checkCollision(size, gridmatrix, x, y, direction)) {
+        direction = getDirection();
+        let combination:number[] = localCombinations[Math.ceil(Math.random() * localCombinations.length - 1)];
+        x = combination[0];
+        y = combination[1];
+    }
 
     if (direction) {
         if (y >= sysParams.COLS - size) {
             for (let i = 0; i < size; i++) {
                 gridmatrix[y - i][x] = { state: CellState.Ship };
                 markSurroundingCells(x, y - i, gridmatrix)
-                localCombinations.filter(item => !(item[0] === x && item[1] === y - i));
+                localCombinations = localCombinations.filter(item => !(item[0] === x && item[1] === y - i));
             }
         }
         else {
             for (let i = 0; i < size; i++) {
                 gridmatrix[y + i][x] = { state: CellState.Ship };
                 markSurroundingCells(x, y + i, gridmatrix)
-                localCombinations.filter(item => !(item[0] === x && item[1] === y + i));
+                localCombinations = localCombinations.filter(item => !(item[0] === x && item[1] === y + i));
             }
         }
     }
@@ -48,23 +84,17 @@ function setupShip(size:number, gridmatrix:Board):Board {
             for (let i = 0; i < size; i++) {
                 gridmatrix[y][x - i] = { state: CellState.Ship };
                 markSurroundingCells(x - i, y, gridmatrix)
-                localCombinations.filter(item => !(item[0] === x - i && item[1] === y));
+                localCombinations = localCombinations.filter(item => !(item[0] === x - i && item[1] === y));
             }
         }
         else {
             for (let i = 0; i < size; i++) {
                 gridmatrix[y][x + i] = { state: CellState.Ship };
                 markSurroundingCells(x + i, y, gridmatrix)
-                localCombinations.filter(item => !(item[0] === x + i && item[1] === y));
+                localCombinations = localCombinations.filter(item => !(item[0] === x + i && item[1] === y));
             }
         }
     }
     shipList.splice(shipList.indexOf(size), 1);
     return gridmatrix;
 }
-
-
-let matrix:Board = setupShip(4, gameBoard);
-ShowBoard(matrix);
-console.log(localCombinations);
-console.log(localCombinations.length);
