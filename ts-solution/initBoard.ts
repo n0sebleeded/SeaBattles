@@ -29,4 +29,5 @@ export function ShowBoard(board:Board):void {
     }
 }
 
+export const shipList:number[] = [4, 3, 3, 2, 2, 2, 1, 1, 1, 1];
 export const gameBoard = CreateEmptyBoard();
