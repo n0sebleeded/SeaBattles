@@ -1,6 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = (env) => {
     return {
@@ -14,6 +15,14 @@ module.exports = (env) => {
         plugins: [
             new HtmlWebpackPlugin({template: path.resolve(__dirname, 'public', 'index.html')}),
             new webpack.ProgressPlugin(),
+            new CopyWebpackPlugin({
+                patterns: [
+                    {
+                        from: './public/app.css', // Путь к вашему CSS файлу
+                        to: './', // Путь для копирования в папку build
+                    },
+                ],
+            }),
         ],
         module: {
             rules: [

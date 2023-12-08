@@ -10,5 +10,5 @@
     "allowSyntheticDefaultImports": true,
     // Уберите или установите "noEmit" в false, если хотите генерировать JavaScript файлы.
   },
-  "include": ["**/*"]
+  "include": ["**/*.ts"]
 }
