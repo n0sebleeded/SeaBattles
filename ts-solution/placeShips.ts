@@ -1,5 +1,5 @@
 import { Board } from "./types.js";
-import { ShowBoard, startGameBoard } from "./initBoard.js";
+import { startGameBoard } from "./initBoard.js";
 import { setupShip, localShips } from "./setupBoard.js";
 
 let matrix:Board = setupShip(localShips[0], startGameBoard);
