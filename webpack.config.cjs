@@ -6,7 +6,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 module.exports = (env) => {
     return {
         mode: env.mode ?? 'development',
-        entry: path.resolve(__dirname, 'dist', 'placeShips'),
+        entry: path.resolve(__dirname, 'dist', 'boardValues'),
         output: {
             path: path.resolve(__dirname, 'build'),
             filename: "[name].[contenthash].js",

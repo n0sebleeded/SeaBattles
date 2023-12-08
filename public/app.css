@@ -3,7 +3,7 @@
     padding: 0;
 }
 
-.chess-board {
+.board {
     height: 100vh;
     border-spacing: 0;
     border-collapse: collapse;
@@ -11,11 +11,19 @@
     justify-content: center;
     align-items: center;
 }
-.chess-board th {
+.board th {
     padding: .5em;
 }
-.chess-board td {
+.board td {
     border: 1px solid black;
     width: 3em;
     height: 3em;
+}
+
+.state-1 {
+    background-color: black;
+}
+
+.state-4 {
+    background-color: red;
 }
