@@ -10,4 +10,10 @@ cells.forEach((cell:Element, index:number):void => {
 
     // @ts-ignore
     cell.className = "state-" + matrix[row][col].state;
+    cell.addEventListener('click', (event: Event) => {
+        if (cell.className == "state-1") {
+            cell.className = "state-hit";
+        }
+    });
+
 });

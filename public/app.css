@@ -27,3 +27,17 @@
 .state-4 {
     background-color: red;
 }
+
+.state-hit {
+    background-color: white;
+}
+
+.state-hit::after {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: red;
+    content: "✖";
+    width: 3em;
+    height: 3em;
+}
