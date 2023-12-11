@@ -21,6 +21,10 @@ module.exports = (env) => {
                         from: './public/app.css', // Путь к вашему CSS файлу
                         to: './', // Путь для копирования в папку build
                     },
+                    {
+                        from: './public/dot.svg', // Путь к вашему CSS файлу
+                        to: './', // Путь для копирования в папку build
+                    },
                 ],
             }),
         ],
