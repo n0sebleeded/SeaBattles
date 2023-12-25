@@ -20,12 +20,21 @@
     height: 3em;
 }
 
-.state-1 {
-    background-color: black;
+.boardsec {
+    height: 100vh;
+    border-spacing: 0;
+    border-collapse: collapse;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
-
-.state-4 {
-    background-color: red;
+.boardsec th {
+    padding: .5em;
+}
+.boardsec td {
+    border: 1px solid black;
+    width: 3em;
+    height: 3em;
 }
 
 .state-hit {
@@ -40,4 +49,26 @@
     content: "✖";
     width: 3em;
     height: 3em;
+}
+
+.state-miss {
+    background-color: white;
+}
+
+.state-miss::after {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: black;
+    content: "✖";
+    width: 3em;
+    height: 3em;
+}
+
+.state-1 {
+    background-color: black;
+}
+
+.state-4 {
+    background-color: red;
 }
