@@ -1,13 +1,13 @@
 import { Board } from "./types.js";
 import { CellState } from "./types.js";
 import { Cell } from "./types.js";
-import {Pars} from "./types.js";
+import { Pars } from "./types.js";
 
 export const sysParams:Pars = {
     ROWS: 10,
     COLS: 10,
 }
-function CreateEmptyBoard():Board {
+export function CreateEmptyBoard():Board {
     const board:Board = [];
     for (let i = 0; i < sysParams.ROWS; i++) {
         const row:Cell[] = [];
@@ -30,4 +30,3 @@ export function ShowBoard(board:Board):void {
 }
 
 export const shipList:number[] = [4, 3, 3, 2, 2, 2, 1, 1, 1, 1];
-export const startGameBoard = CreateEmptyBoard();

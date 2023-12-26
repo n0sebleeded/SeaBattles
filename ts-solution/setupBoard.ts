@@ -1,8 +1,8 @@
-import { shipList, ShowBoard, startGameBoard, sysParams } from "./initBoard.js";
+import { shipList, sysParams } from "./initBoard.js";
 import { Board, CellState } from "./types.js";
-import { combinations } from "./combinations.js";
+import { getCombination } from "./combinations.js";
 
-let localCombinations = [...combinations];
+let localCombinations = getCombination();
 export let localShips:number[] = [...shipList];
 
 function getDirection():boolean {
@@ -95,6 +95,5 @@ export function setupShip(size:number, gridmatrix:Board):Board {
             }
         }
     }
-    shipList.splice(shipList.indexOf(size), 1);
     return gridmatrix;
 }

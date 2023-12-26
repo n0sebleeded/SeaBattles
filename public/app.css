@@ -4,7 +4,7 @@
 }
 
 .board {
-    height: 100vh;
+    height: 80vh;
     border-spacing: 0;
     border-collapse: collapse;
     display: flex;
@@ -21,7 +21,7 @@
 }
 
 .boardsec {
-    height: 100vh;
+    height: 80vh;
     border-spacing: 0;
     border-collapse: collapse;
     display: flex;
@@ -70,5 +70,5 @@
 }
 
 .state-4 {
-    background-color: red;
+    background-color: white;
 }

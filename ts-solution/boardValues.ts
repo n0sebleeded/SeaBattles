@@ -1,9 +1,9 @@
-import matrix from "./placeShips.js";
+/*import { matrix, matrixPlayer } from "./placeShips.js";*/
+import { matrix } from "./placeShips.js";
 import {CellState} from "./types";
 
 const cells:NodeListOf<Element> = document.querySelectorAll('.board td');
 const cellsSecondBoard: NodeListOf<Element> = document.querySelectorAll('.boardsec td');
-console.log('test');
 
 cells.forEach((cell:Element, index:number):void => {
     // Получаем индекс строки и столбца на основе индекса ячейки
