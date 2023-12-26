@@ -3,6 +3,9 @@ import { Board, CellState } from "./types.js";
 import { getCombination } from "./combinations.js";
 
 let localCombinations = getCombination();
+export function updateLocalCombination():void {
+    localCombinations =  getCombination();
+}
 export let localShips:number[] = [...shipList];
 
 function getDirection():boolean {

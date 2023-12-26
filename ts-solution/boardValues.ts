@@ -1,12 +1,12 @@
 /*import { matrix, matrixPlayer } from "./placeShips.js";*/
-import { matrix } from "./placeShips.js";
+import {matrix, matrixPlayer} from "./placeShips.js";
 import {CellState} from "./types";
 
 const cells:NodeListOf<Element> = document.querySelectorAll('.board td');
 const cellsSecondBoard: NodeListOf<Element> = document.querySelectorAll('.boardsec td');
 
 cells.forEach((cell:Element, index:number):void => {
-    // Получаем индекс строки и столбца на основе индекса ячейки
+    /*// Получаем индекс строки и столбца на основе индекса ячейки
     const row = Math.floor(index / 10); // 10 - количество ячеек в строке
     const col = index % 10;
 
@@ -22,7 +22,14 @@ cells.forEach((cell:Element, index:number):void => {
         else {
             cell.className = "state-miss";
         }
-    });
+    });*/
+    const row = Math.floor(index / 10); // 10 - количество ячеек в строке
+    const col = index % 10;
+
+    const cellState: CellState = matrix[row][col].state;
+
+    // @ts-ignore
+    cell.className = "state-" + cellState;
 });
 
 cellsSecondBoard.forEach((cell:Element, index:number):void => {
@@ -30,8 +37,8 @@ cellsSecondBoard.forEach((cell:Element, index:number):void => {
     const row = Math.floor(index / 10); // 10 - количество ячеек в строке
     const col = index % 10;
 
-    const cellState: CellState = matrix[row][col].state;
+    const cellState: CellState = matrixPlayer[row][col].state;
 
     // @ts-ignore
-    cell.className = "state-" + matrix[row][col].state;
+    cell.className = "state-" + cellState;
 });
