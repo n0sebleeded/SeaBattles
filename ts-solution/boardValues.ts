@@ -1,5 +1,6 @@
 import {matrix, matrixPlayer} from "./placeShips.js";
 import {CellState} from "./types";
+import {getCombination} from "./combinations.js";
 
 const cells:NodeListOf<Element> = document.querySelectorAll('.board td');
 const cellsSecondBoard: NodeListOf<Element> = document.querySelectorAll('.boardsec td');
@@ -9,6 +10,7 @@ let GAME:boolean = true;
 let DESTROYED_SHIPS_PLAYER_COUNT:number = 0;
 let DESTROYED_SHIPS_BOT_COUNT:number = 0;
 const ALL_SHIPS_DESTROYED:number = 20;
+let combinations:number[][] = getCombination();
 
 const clickHandler = (event: Event) => {
     if (GAME) {
@@ -32,8 +34,10 @@ const clickHandler = (event: Event) => {
         playerCanAttack = false;
         // Bot's turn
         setTimeout(() => {
-            let randRow = Math.floor(Math.random() * 9);
-            let randCol = Math.floor(Math.random() * 9);
+            const randCombination:number[] = combinations[Math.floor(Math.random() * (combinations.length - 1))];
+            let randRow:number = randCombination[0];
+            let randCol:number = randCombination[1];
+            combinations = combinations.filter(item => !(item[0] === randRow && item[1] === randCol));
 
             const botCell = cellsSecondBoard[randRow * 10 + randCol];
             const botCellState = matrixPlayer[randRow][randCol].state;
@@ -53,8 +57,6 @@ const clickHandler = (event: Event) => {
                 }
             });
         }, 500);
-        console.log(DESTROYED_SHIPS_PLAYER_COUNT);
-        console.log(DESTROYED_SHIPS_BOT_COUNT);
         if (DESTROYED_SHIPS_PLAYER_COUNT === ALL_SHIPS_DESTROYED) {
             GAME = false;
             alert("You win!")
